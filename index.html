@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>سكينة | Sakina Real Estate — منصة العقارات الذكية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- طبقات الخلفية المتحركة وهالة المؤشر وتموجات النقر -->
+  <div class="cyber-grid-bg" aria-hidden="true"></div>
+  <div class="aurora-layer" aria-hidden="true"></div>
+  <div id="particles-bg" aria-hidden="true"></div>
+  <div id="touch-glow" aria-hidden="true"></div>
+  <div id="ripple-container" aria-hidden="true"></div>
+
+  <!-- الشريط العلوي -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand-group">
+        <button id="menuToggleBtn" class="icon-btn burger-btn" type="button" aria-label="فتح قائمة الأقسام" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <a href="#home" class="brand" data-section="home">
+          <div class="brand-badge">س</div>
+          <div class="brand-text">
+            <strong>سكينة SAKINA</strong>
+            <span>حلول عقارية ذكية ومتكاملة</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="topbar-actions">
+        <button id="voiceWelcomeBtn" class="pill-btn glow-btn" type="button" title="تشغيل الترحيب الصوتي">
+          🔊 ترحيب صوتي
+        </button>
+        <button id="themeToggleBtn" class="icon-btn" type="button" title="تبديل الوضع النهاري والليلي" aria-label="تبديل الوضع النهاري والليلي">
+          🌓
+        </button>
+        <button id="langToggleBtn" class="pill-btn" type="button">English</button>
+        <button id="openCompareModalBtn" class="pill-btn accent-btn" type="button">
+          ⚖️ المقارنة (<span id="compareCount">0</span>/3)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- قائمة الثلاث شرط الجانبية وتضم الأقسام والمستطيلات -->
+  <aside id="sideDrawer" class="side-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <div>
+        <strong>قائمة سكينة الشاملة</strong>
+        <p>جميع الأقسام والأدوات والمستطيلات في مكان واحد</p>
+      </div>
+      <button id="closeDrawerBtn" class="close-modal-btn" type="button" aria-label="إغلاق القائمة">✕</button>
+    </div>
+
+    <div class="drawer-group-title">الأقسام الرئيسية</div>
+    <nav class="drawer-nav">
+      <button type="button" class="drawer-link active" data-section="home">🏠 الرئيسية</button>
+      <button type="button" class="drawer-link" data-section="properties">🏢 العقارات والغرف</button>
+      <button type="button" class="drawer-link" data-section="favorites">❤️ المفضلة</button>
+      <button type="button" class="drawer-link" data-section="map">🗺️ الخريطة التفاعلية</button>
+      <button type="button" class="drawer-link" data-section="calculators">🧮 الحاسبات</button>
+      <button type="button" class="drawer-link" data-section="guide">📖 دليل الموقع</button>
+      <button type="button" class="drawer-link" data-section="database">🗄️ الداتا بيز المعزولة</button>
+    </nav>
+
+    <div class="drawer-group-title">مستطيلات الوصول السريع</div>
+    <div class="drawer-rectangles">
+      <button type="button" class="rect-card" data-open-modal="affordability">
+        <strong>💳 احسب قدرتك الشرائية</strong>
+        <span>تقدير الميزانية أو القسط الشهري المناسب</span>
+      </button>
+      <button type="button" class="rect-card" data-section="properties">
+        <strong>🛋️ استعراض العقارات والغرف</strong>
+        <span>صور الغرف والجولة الداخلية المتحركة</span>
+      </button>
+      <button type="button" class="rect-card" data-section="map">
+        <strong>📍 فتح الخريطة المتجاوبة</strong>
+        <span>دبابيس المواقع وتكبير الخريطة لملء الشاشة</span>
+      </button>
+      <button type="button" class="rect-card" data-section="calculators" data-calc-tab="installment">
+        <strong>📊 حاسبة الأقساط والتمويل</strong>
+        <span>جدول السداد ومشاركة الخطة عبر واتساب</span>
+      </button>
+      <button type="button" class="rect-card" data-section="calculators" data-calc-tab="finishing">
+        <strong>🎨 التشطيب والفرش</strong>
+        <span>حساب تكلفة التشطيب والإضافات للمتر</span>
+      </button>
+      <button type="button" class="rect-card" data-open-modal="booking">
+        <strong>📅 حجز معاينة مجانية</strong>
+        <span>تحديد موعد معاينة ميدانية أو استشارة</span>
+      </button>
+    </div>
+  </aside>
+  <div id="drawerBackdrop" class="drawer-backdrop"></div>
+
+  <!-- المحتوى الرئيسي -->
+  <main class="container main-content">
+    <div class="status-strip">
+      <div>القسم النشط حالياً: <strong id="activeSectionLabel">الرئيسية</strong></div>
+      <div class="isolation-badge">وضع العزل نشط: بيانات الأيقونة المفتوحة فقط هي المفعّلة</div>
+    </div>
+
+    <!-- 1. القسم الرئيسي -->
+    <section id="section-home" class="page-section active">
+      <div class="hero-box tilt-card">
+        <span class="hero-tag">تجربة عقارية تفاعلية باللغة العربية</span>
+        <h1>اكتشف مسكنك المثالي في سكينة بجولات داخلية وحسابات دقيقة</h1>
+        <p>
+          تصفح وحدات حقيقية بمواقع متعددة، تنقّل بين الغرف في جولة داخلية ثلاثية الأبعاد،
+          احسب الأقساط والعائد الاستثماري وتكلفة التشطيب، وتواصل فوراً عبر واتساب أو مع المساعد الذكي.
+        </p>
+        <div class="hero-cta-row">
+          <button type="button" class="cta-pill primary" data-open-modal="affordability">احسب قدرتك الشرائية</button>
+          <button type="button" class="cta-pill" data-section="properties">استعراض العقارات والغرف</button>
+          <button type="button" class="cta-pill" data-section="map">فتح الخريطة المتجاوبة</button>
+          <button type="button" class="cta-pill accent" id="heroListenGuideBtn">استمع إلى شرح الموقع</button>
+          <button type="button" class="cta-pill primary" data-open-modal="booking">حجز معاينة مجانية</button>
+        </div>
+      </div>
+
+      <div class="panel-card tilt-card">
+        <div class="panel-header">
+          <h2>لمحة عن العقارات المعروضة</h2>
+          <button type="button" class="link-btn" data-section="properties">عرض كل الوحدات ←</button>
+        </div>
+        <div class="featured-property-carousel">
+          <div id="homeFeaturedGrid" class="featured-property-stage" aria-live="polite" aria-atomic="true"></div>
+          <div class="featured-property-controls">
+            <button id="homeFeaturedPrev" class="featured-nav-btn" type="button" aria-label="العقار السابق">‹ السابق</button>
+            <div id="homeFeaturedDots" class="featured-property-dots" role="group" aria-label="اختيار عقار"></div>
+            <span id="homeFeaturedCount" class="featured-property-count" aria-live="off"></span>
+            <button id="homeFeaturedNext" class="featured-nav-btn" type="button" aria-label="العقار التالي">التالي ›</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card tilt-card">
+        <div class="panel-header">
+          <div>
+            <h2>مواعيد المعاينات والاستشارات المحجوزة</h2>
+            <p class="muted">يتم تحديث السجل تلقائياً عند حجز أي معاينة أو استشارة</p>
+          </div>
+          <button type="button" class="pill-btn glow-btn" data-open-modal="booking">+ حجز موعد جديد</button>
+        </div>
+        <div id="bookingsList" class="bookings-list"></div>
+      </div>
+    </section>
+
+    <!-- 2. قسم العقارات والغرف -->
+    <section id="section-properties" class="page-section">
+      <div class="panel-card tilt-card">
+        <div class="panel-header">
+          <div>
+            <h2>العقارات والشقق والغرف</h2>
+            <p class="muted">اختر أي وحدة لمشاهدة صور غرفها وتشغيل الجولة الداخلية المتحركة</p>
+          </div>
+          <div class="quick-filter-pills">
+            <button type="button" class="filter-chip active" data-filter-mode="all">الكل</button>
+            <button type="button" class="filter-chip" data-filter-mode="favorites">المفضلة</button>
+            <button type="button" class="filter-chip" id="toggleHideSeenBtn">إخفاء العقارات التي شاهدتها</button>
+          </div>
+        </div>
+
+        <div class="filters-grid">
+          <input id="searchInput" type="search" placeholder="ابحث بالاسم أو المنطقة..." />
+          <select id="typeFilter">
+            <option value="all">كل أنواع الوحدات</option>
+            <option value="شقة">شقة</option>
+            <option value="فيلا">فيلا</option>
+            <option value="بنتهاوس">بنتهاوس</option>
+            <option value="تاون هاوس">تاون هاوس</option>
+            <option value="دوبلكس">دوبلكس</option>
+            <option value="تجاري / إداري">تجاري / إداري</option>
+          </select>
+          <select id="deliveryFilter">
+            <option value="all">كل حالات التسليم</option>
+            <option value="استلام فوري">استلام فوري</option>
+            <option value="تحت الإنشاء">تحت الإنشاء</option>
+          </select>
+          <select id="currencySelect">
+            <option value="EGP">EGP — جنيه مصري</option>
+            <option value="USD">USD — دولار أمريكي</option>
+            <option value="SAR">SAR — ريال سعودي</option>
+          </select>
+          <select id="areaUnitSelect">
+            <option value="m2">متر مربع</option>
+            <option value="sqft">قدم مربع</option>
+            <option value="feddan">فدان</option>
+            <option value="qirat">قيراط</option>
+          </select>
+        </div>
+
+        <div class="range-bar">
+          <label for="maxPriceRange">الحد الأقصى للسعر: <strong id="maxPriceLabel">25,000,000 ج.م</strong></label>
+          <input id="maxPriceRange" type="range" min="1000000" max="35000000" step="500000" value="25000000" />
+          <button type="button" class="pill-btn" id="saveSearchAlertBtn">حفظ البحث والتنبيه</button>
+          <select id="sortSelect">
+            <option value="default">الترتيب الافتراضي</option>
+            <option value="price-asc">الأقل سعراً</option>
+            <option value="newest">الأحدث إضافة</option>
+            <option value="area-desc">الأكبر مساحة</option>
+          </select>
+        </div>
+
+        <div id="propertiesGrid" class="cards-grid"></div>
+      </div>
+    </section>
+
+    <!-- 3. قسم المفضلة -->
+    <section id="section-favorites" class="page-section">
+      <div class="panel-card tilt-card">
+        <div class="panel-header">
+          <div>
+            <h2>العقارات المفضلة</h2>
+            <p class="muted">كل العقارات التي حفظتها للرجوع إليها ومقارنتها لاحقاً.</p>
+          </div>
+          <button type="button" class="pill-btn glow-btn" data-section="properties">استعراض العقارات</button>
+        </div>
+        <div id="favoritesGrid" class="cards-grid"></div>
+      </div>
+    </section>
+
+    <!-- 4. قسم الخريطة التفاعلية -->
+    <section id="section-map" class="page-section">
+      <div id="mapPanel" class="panel-card tilt-card">
+        <div class="panel-header">
+          <div>
+            <h2>الخريطة التفاعلية المتجاوبة مع جميع الشاشات</h2>
+            <p class="muted">تتكيف تلقائياً مع مقاس الهاتف والتابلت والكمبيوتر وتغيير اتجاه الشاشة — المقاس الحالي: <strong id="viewportSizeLabel">--</strong></p>
+          </div>
+          <div class="map-controls">
+            <div class="map-type-filters">
+              <button type="button" class="map-chip active" data-map-type="all">كل المواقع</button>
+              <button type="button" class="map-chip" data-map-type="شقة">شقق</button>
+              <button type="button" class="map-chip" data-map-type="فيلا">فيلات</button>
+              <button type="button" class="map-chip" data-map-type="بنتهاوس">بنتهاوس</button>
+              <button type="button" class="map-chip" data-map-type="تاون هاوس">تاون هاوس</button>
+              <button type="button" class="map-chip" data-map-type="دوبلكس">دوبلكس</button>
+              <button type="button" class="map-chip" data-map-type="تجاري / إداري">تجاري / إداري</button>
+            </div>
+            <button type="button" class="pill-btn" id="resetMapPinsBtn">إظهار كل المواقع</button>
+            <button type="button" class="pill-btn glow-btn" id="toggleFullscreenMapBtn">ملء الشاشة</button>
+          </div>
+        </div>
+
+        <div id="interactiveMapCanvas" class="interactive-map"></div>
+        <p class="map-hint">اضغط على أي دبوس داخل الخريطة لعرض تفاصيل الوحدة وفتح غرفها أو حجز معاينة.</p>
+      </div>
+    </section>
+
+    <!-- 5. قسم الحاسبات -->
+    <section id="section-calculators" class="page-section">
+      <div class="panel-card tilt-card">
+        <div class="calc-tabs">
+          <button type="button" class="calc-tab active" data-calc-tab="installment">حاسبة الأقساط</button>
+          <button type="button" class="calc-tab" data-calc-tab="roi">العائد الاستثماري والإيجار</button>
+          <button type="button" class="calc-tab" data-calc-tab="finishing">التشطيب والفرش</button>
+          <button type="button" class="calc-tab" data-calc-tab="rentVsBuy">إيجار أم تمليك؟</button>
+        </div>
+
+        <!-- تبويب 1: حاسبة الأقساط -->
+        <div id="calc-installment" class="calc-pane active">
+          <div class="calc-grid">
+            <div class="calc-form">
+              <label>اختيار وحدة جاهزة (اختياري)
+                <select id="calcUnitSelect"></select>
+              </label>
+              <label>إجمالي سعر العقار (ج.م)
+                <input id="instPrice" type="number" value="6500000" min="100000" step="50000" />
+              </label>
+              <label>نسبة المقدم (%)
+                <input id="instDownPct" type="number" value="20" min="0" max="95" step="5" />
+              </label>
+              <label>مدة التقسيط (بالسنوات)
+                <input id="instYears" type="number" value="7" min="1" max="20" />
+              </label>
+              <label>دورية السداد
+                <select id="instFreq">
+                  <option value="monthly">شهري</option>
+                  <option value="quarterly">ربع سنوي (كل 3 أشهر)</option>
+                  <option value="yearly">سنوي</option>
+                </select>
+              </label>
+              <label>نسبة الفائدة / الزيادة السنوية (%)
+                <input id="instRate" type="number" value="0" min="0" max="40" step="0.5" />
+              </label>
+            </div>
+
+            <div class="calc-result-box">
+              <h3>ملخص خطة السداد</h3>
+              <div id="instSummary" class="summary-stats"></div>
+              <div class="btn-row">
+                <button id="copyInstBtn" class="pill-btn" type="button">نسخ الملخص</button>
+                <button id="waInstBtn" class="pill-btn glow-btn" type="button">إرسال عبر واتساب</button>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>#</th><th>القسط</th><th>المتبقي التقديري</th></tr>
+                  </thead>
+                  <tbody id="instScheduleBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- تبويب 2: العائد الاستثماري -->
+        <div id="calc-roi" class="calc-pane">
+          <div class="calc-grid">
+            <div class="calc-form">
+              <label>سعر الشراء / الاستثمار (ج.م)
+                <input id="roiPrice" type="number" value="5000000" step="50000" />
+              </label>
+              <label>الإيجار الشهري المتوقع (ج.م)
+                <input id="roiMonthlyRent" type="number" value="32000" step="1000" />
+              </label>
+              <label>نسبة المصاريف السنوية والصيانة والإشغال (%)
+                <input id="roiExpensesPct" type="number" value="15" min="0" max="80" />
+              </label>
+            </div>
+            <div class="calc-result-box">
+              <h3>تحليل العائد الاستثماري (ROI)</h3>
+              <div id="roiSummary" class="summary-stats"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- تبويب 3: التشطيب والفرش -->
+        <div id="calc-finishing" class="calc-pane">
+          <div class="calc-grid">
+            <div class="calc-form">
+              <label>مساحة الوحدة (م²)
+                <input id="finArea" type="number" value="145" min="20" max="2000" />
+              </label>
+              <label>مستوى التشطيب والفرش
+                <select id="finLevel">
+                  <option value="3500">تشطيب قياسي عملي (3,500 ج.م / م²)</option>
+                  <option value="6500" selected>تشطيب الترا لوكس متكامل (6,500 ج.م / م²)</option>
+                  <option value="11000">تشطيب فاخر + فرش كامل (11,000 ج.م / م²)</option>
+                </select>
+              </label>
+              <label class="checkbox-row">
+                <input id="finAc" type="checkbox" checked />
+                <span>تكييفات مركزية / سبليت (+140,000 ج.م)</span>
+              </label>
+              <label class="checkbox-row">
+                <input id="finKitchen" type="checkbox" checked />
+                <span>مطبخ مجهز بالكامل (+180,000 ج.م)</span>
+              </label>
+              <label class="checkbox-row">
+                <input id="finSmart" type="checkbox" />
+                <span>نظام منزل ذكي Smart Home (+95,000 ج.م)</span>
+              </label>
+            </div>
+            <div class="calc-result-box">
+              <h3>تقدير تكلفة التشطيب والفرش</h3>
+              <div id="finSummary" class="summary-stats"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- تبويب 4: إيجار أم تمليك -->
+        <div id="calc-rentVsBuy" class="calc-pane">
+          <div class="calc-grid">
+            <div class="calc-form">
+              <label>الإيجار الشهري الحالي (ج.م)
+                <input id="rvbRent" type="number" value="25000" step="1000" />
+              </label>
+              <label>مقدم التمليك (ج.م)
+                <input id="rvbDown" type="number" value="1200000" step="50000" />
+              </label>
+              <label>القسط الشهري (ج.م)
+                <input id="rvbInstallment" type="number" value="42000" step="1000" />
+              </label>
+              <label>فترة المقارنة (سنوات)
+                <input id="rvbYears" type="number" value="7" min="1" max="25" />
+              </label>
+            </div>
+            <div class="calc-result-box">
+              <h3>مقارنة تقديرية للتكلفة</h3>
+              <div id="rvbSummary" class="summary-stats"></div>
+              <p class="disclaimer-note">
+                المقارنة لا تحتسب قيمة إعادة البيع أو الزيادة السنوية للإيجار والرسوم والصيانة؛ استشر مختصاً قبل اتخاذ القرار.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. قسم دليل الموقع -->
+    <section id="section-guide" class="page-section">
+      <div class="panel-card tilt-card">
+        <div class="panel-header">
+          <div>
+            <h2>دليل استخدام سكينة</h2>
+            <p class="muted">تعرف على الأقسام والأدوات، أو استمع إلى شرح صوتي باللغة المختارة.</p>
+          </div>
+          <button id="guideListenBtn" class="pill-btn glow-btn" type="button">🔊 استمع إلى شرح الموقع</button>
+        </div>
+
+        <div class="guide-grid">
+          <article class="guide-card tilt-card">
+            <h3>الرئيسية والتنقل</h3>
+            <p>تعرض الرئيسية ملخص العقارات والفيلات والعقار المميز ومواعيد المعاينات. استخدم شريط التنقل للانتقال بين الأقسام، وتظهر بيانات القسم الذي فتحته فقط.</p>
+          </article>
+          <article class="guide-card tilt-card">
+            <h3>البحث والفرز</h3>
+            <p>ابحث بالاسم أو المنطقة، وصفِّ حسب النوع والتسليم والسعر والمساحة. رتّب النتائج بالسعر الأقل أو الأحدث أو المساحة الأكبر، وأخفِ ما شاهدته أو غيّر وحدة المساحة.</p>
+          </article>
+          <article class="guide-card tilt-card">
+            <h3>تفاصيل الوحدة والجولة</h3>
+            <p>افتح البطاقة لمشاهدة الغرف والجولة الداخلية والمرافق والعدادات والمصاريف ومقارنة سعر المتر. اقرأ التفاصيل صوتياً بالعربية، شارك الرابط، أو أبلغ عن إعلان غير متاح. شارة المالك المباشر غير مؤكدة بشكل مستقل.</p>
+          </article>
+          <article class="guide-card tilt-card">
+            <h3>المفضلة والمقارنة</h3>
+            <p>احفظ الوحدات بزر القلب لتجدها في المفضلة. أضف حتى ثلاث وحدات إلى شريط المقارنة، ثم اضغط «قارن الآن» لمراجعة خصائصها معاً.</p>
+          </article>
+          <article class="guide-card tilt-card">
+            <h3>حفظ البحث والتنبيهات</h3>
+            <p>احفظ فلاتر بحثك لتتابعها، واستقبل إشعاراً من المتصفح عند إضافة عقار جديد يطابقها إذا منحت الموقع إذن الإشعارات.</p>
+          </article>
+          <article class="guide-card tilt-card">
+            <h3>الخريطة التفاعلية</h3>
+            <p>صفِّ العقارات حسب النوع، أظهر كل المواقع، أو اختر دبوساً لعرض تفاصيل الوحدة. ويمكنك تكبير الخريطة إلى ملء الشاشة.</p>
+          </article>
+          <article class="guide-card tilt-card">
+            <h3>الحاسبات والتخطيط المالي</h3>
+            <p>قدّر القدرة الشرائية والأقساط والعائد الإيجاري وتكلفة التشطيب والفرش، وقارن بين الإيجار والتمليك. النتائج تقديرية وليست عرضاً مالياً.</p>
+          </article>
+          <article class="guide-card tilt-card">
+            <h3>المواعيد والتواصل</h3>
+            <p>احجز معاينة واختر طريقة أو وقت التواصل. استفسر عبر واتساب، وتذكّر أن سجلات الحجوزات والبلاغات محفوظة محلياً في هذا المتصفح.</p>
+          </article>
+          <article class="guide-card tilt-card">
+            <h3>قاعدة البيانات والإعدادات</h3>
+            <p>أضف الإعلانات أو عدّلها واحذفها واستورد بياناتك أو صدّرها. بدّل اللغة والوضع النهاري أو الليلي والإضاءة من الأيقونات، واسأل مساعد سكينة عند الحاجة.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. قسم قاعدة البيانات المعزولة (SakinaDB) -->
+    <section id="section-database" class="page-section">
+      <div class="panel-card tilt-card">
+        <div class="panel-header">
+          <div>
+            <h2>إدارة قاعدة البيانات المعزولة (SakinaDB)</h2>
+            <p class="muted">تُحمّل بيانات هذا القسم فقط عند فتح أيقونته، وتحفظ التعديلات محلياً في المتصفح مع إمكانية التصدير والاستيراد.</p>
+          </div>
+          <div class="btn-row">
+            <button id="exportJsonBtn" class="pill-btn" type="button">تصدير JSON</button>
+            <label class="pill-btn">
+              استيراد JSON
+              <input id="importJsonInput" type="file" accept="application/json" hidden />
+            </label>
+            <button id="resetDbBtn" class="pill-btn danger-btn" type="button">استعادة الافتراضي</button>
+          </div>
+        </div>
+
+        <form id="dbForm" class="db-form">
+          <input id="dbTitle" type="text" placeholder="اسم الوحدة / الإعلان" required />
+          <input id="dbCity" type="text" placeholder="المنطقة / المدينة" required />
+          <select id="dbType">
+            <option value="شقة">شقة</option>
+            <option value="فيلا">فيلا</option>
+            <option value="بنتهاوس">بنتهاوس</option>
+            <option value="تاون هاوس">تاون هاوس</option>
+            <option value="دوبلكس">دوبلكس</option>
+            <option value="تجاري / إداري">تجاري / إداري</option>
+          </select>
+          <input id="dbArea" type="number" placeholder="المساحة (م²)" required />
+          <input id="dbRooms" type="number" placeholder="عدد الغرف" value="3" />
+          <input id="dbPrice" type="number" placeholder="السعر (ج.م)" required />
+          <select id="dbDelivery">
+            <option value="استلام فوري">استلام فوري</option>
+            <option value="تحت الإنشاء">تحت الإنشاء</option>
+          </select>
+          <select id="dbMaintenance">
+            <option value="غير محدد">وديعة الصيانة: غير محدد</option>
+            <option value="شاملة">وديعة الصيانة: شاملة</option>
+            <option value="غير شاملة">وديعة الصيانة: غير شاملة</option>
+          </select>
+          <select id="dbMeters">
+            <option value="غير محدد">عدادات المرافق: غير محدد</option>
+            <option value="شاملة">عدادات المرافق: شاملة</option>
+            <option value="غير شاملة">عدادات المرافق: غير شاملة</option>
+          </select>
+          <select id="dbGarage">
+            <option value="غير محدد">الجراج: غير محدد</option>
+            <option value="شاملة">الجراج: شاملة</option>
+            <option value="غير شاملة">الجراج: غير شاملة</option>
+          </select>
+          <label class="checkbox-row">
+            <input id="dbDirectOwner" type="checkbox" />
+            <span>مالك مباشرة - بدون عمولة (بعد التحقق)</span>
+          </label>
+          <button type="submit" class="pill-btn glow-btn">+ إضافة للقاعدة</button>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>المعرّف</th>
+                <th>الوحدة</th>
+                <th>الموقع</th>
+                <th>النوع</th>
+                <th>المساحة / الغرف</th>
+                <th>السعر</th>
+                <th>التحكم</th>
+              </tr>
+            </thead>
+            <tbody id="dbTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- نافذة تفاصيل العقار والجولة الداخلية -->
+  <div id="propertyModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card large">
+      <div class="modal-header">
+        <h3 id="propModalTitle">تفاصيل العقار</h3>
+        <button class="close-modal-btn" type="button">✕</button>
+      </div>
+      <div id="propModalBody"></div>
+    </div>
+  </div>
+
+  <!-- نافذة مقارنة الوحدات -->
+  <div id="compareModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card large">
+      <div class="modal-header">
+        <h3>مقارنة الوحدات المختارة</h3>
+        <button class="close-modal-btn" type="button">✕</button>
+      </div>
+      <div id="compareModalBody"></div>
+    </div>
+  </div>
+
+  <!-- نافذة حجز معاينة أو استشارة -->
+  <div id="bookingModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>حجز معاينة أو استشارة</h3>
+        <button class="close-modal-btn" type="button">✕</button>
+      </div>
+      <form id="bookingForm" class="modal-form">
+        <label>العقار
+          <select id="bookingPropertySelect"></select>
+        </label>
+        <label>الاسم
+          <input id="bookingName" type="text" required placeholder="اكتب اسمك الكامل" />
+        </label>
+        <label>رقم الهاتف
+          <input id="bookingPhone" type="tel" required placeholder="01xxxxxxxxx" />
+        </label>
+        <label>نوع الموعد
+          <select id="bookingType">
+            <option value="معاينة ميدانية">معاينة ميدانية</option>
+            <option value="استشارة هاتفية">استشارة هاتفية</option>
+          </select>
+        </label>
+        <label>التاريخ والوقت
+          <input id="bookingDate" type="datetime-local" required />
+        </label>
+        <label>وقت وطريقة التواصل
+          <select id="bookingContactPref">
+            <option value="صباحاً">صباحاً</option>
+            <option value="مساءً">مساءً</option>
+            <option value="واتساب فقط">واتساب فقط</option>
+          </select>
+        </label>
+        <button type="submit" class="pill-btn glow-btn">تأكيد الحجز</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- نافذة حساب القدرة الشرائية -->
+  <div id="affordabilityModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>احسب قدرتك الشرائية</h3>
+        <button class="close-modal-btn" type="button">✕</button>
+      </div>
+      <div class="modal-form">
+        <label>طريقة التقدير
+          <select id="affMode">
+            <option value="budget">إجمالي الميزانية</option>
+            <option value="installment">القسط الشهري المناسب</option>
+          </select>
+        </label>
+        <label>الميزانية المتاحة (ج.م)
+          <input id="affInputVal" type="number" value="6000000" step="100000" />
+        </label>
+        <label>نسبة المقدم (%)
+          <input id="affDownPct" type="number" value="20" min="0" max="90" />
+        </label>
+        <label>مدة التقسيط (سنوات)
+          <input id="affYears" type="number" value="7" min="1" max="20" />
+        </label>
+        <div id="affResultBox" class="aff-result"></div>
+        <button id="affShowMatchesBtn" class="pill-btn glow-btn" type="button">اعرض العقارات المناسبة</button>
+        <p class="disclaimer-note">التقدير تقريبي ويفترض أقساطاً متساوية دون فوائد أو رسوم.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- الروبوت المرشد والشات بوت العائم + زر واتساب -->
+  <div class="floating-dock">
+    <a id="whatsappFloatBtn" class="wa-float-btn" href="https://wa.me/201000000000" target="_blank" rel="noopener">
+      💬 واتساب
+    </a>
+
+    <div class="robot-wrapper">
+      <div id="robotSpeechBubble" class="robot-bubble">
+        <div class="robot-bubble-head">
+          <strong>🤖 مساعد سكينة</strong>
+          <button id="robotSpeakCurrentBtn" type="button" class="mini-speak-btn">🔊 اشرح</button>
+        </div>
+        <p id="robotSpeechText">أهلاً بيك يا فندم! أنا مساعد سكينة، وهشرحلك كل قسم بتدوس عليه بالعامية.</p>
+      </div>
+
+      <button id="robotAvatarBtn" class="robot-avatar" type="button" aria-label="مساعد سكينة">
+        <span class="robot-antenna"></span>
+        <span class="robot-eyes"><i></i><i></i></span>
+        <span class="robot-mouth"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- نافذة الشات بوت التفاعلي -->
+  <div id="chatWidget" class="chat-widget" aria-hidden="true">
+    <div class="chat-header">
+      <strong>🤖 مساعد سكينة</strong>
+      <button id="closeChatBtn" type="button">✕</button>
+    </div>
+    <div class="chat-quick-chips">
+      <button type="button" class="chat-chip" data-quick="العقارات المتاحة">العقارات المتاحة</button>
+      <button type="button" class="chat-chip" data-quick="حساب القسط">حساب القسط</button>
+      <button type="button" class="chat-chip" data-quick="حجز معاينة">حجز معاينة</button>
+    </div>
+    <div id="chatMessages" class="chat-messages"></div>
+    <form id="chatForm" class="chat-form">
+      <input id="chatInput" type="text" placeholder="اكتب سؤالك هنا..." required />
+      <button type="submit" class="pill-btn glow-btn">إرسال</button>
+    </form>
+  </div>
+
+  <script src="js/effects.js"></script>
+  <script src="js/robot-guide.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
